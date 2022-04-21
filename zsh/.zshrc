@@ -1,3 +1,5 @@
+# If on work machine, import work profiles too.
+[ -e "/opt/brew/opt/idk-core/profile.zsh" ] && source "/opt/brew/opt/idk-core/profile.zsh"
 export TERM=xterm-color
 
 # If you come from bash you might have to change your $PATH.
