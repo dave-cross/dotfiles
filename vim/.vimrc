@@ -190,6 +190,9 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 nnoremap J mzJ'z
 
+" Make `jj` switch to normal mode (for touchbar ease)
+inoremap jj <esc>
+
 " Sets better undo points during insert mode
 inoremap , ,<c-g>u
 inoremap . .<c-g>u
