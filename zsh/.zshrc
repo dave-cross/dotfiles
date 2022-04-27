@@ -12,6 +12,8 @@ export FZF_DEFAULT_OPTS='--height=70% --preview="cat {}" --preview-window=right:
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND='rg --files'
 
+export EDITOR=vim
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
