@@ -212,3 +212,9 @@ inoremap <C-j> :m .+1<CR>==
 inoremap <C-k> :m .-2<CR>==
 nnoremap <leader>j :m .+1<CR>==
 nnoremap <leader>k :m .-2<CR>==
+
+" copy to the MacOS clipboard
+nnoremap <leader>Y "*yy
+vnoremap <leader>y "*y
+
+
