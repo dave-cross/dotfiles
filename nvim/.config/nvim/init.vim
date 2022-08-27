@@ -1,9 +1,8 @@
 " Add default colorscheme here so we can override later.
 syntax enable
-set re=0
 filetype plugin indent on
-set term=xterm-256color
-set termguicolors
+" set term=xterm-256color
+" set termguicolors
 set background=dark
 colorscheme desert
 
@@ -15,8 +14,8 @@ if !exists('g:loaded_minpac')
 
   " Settings for plugin-less environment.
   " Try installing minpac and reloading vimrc.
-  silent execute '!git clone https://github.com/k-takata/minpac.git ~/.vim/pack/minpac/opt/minpac'
-  source ~/.vimrc
+  silent execute '!git clone https://github.com/k-takata/minpac.git ~/.config/nvim/pack/minpac/opt/minpac'
+  source ~/.config/nvim/init.vim
 
 endif
 
@@ -40,81 +39,71 @@ call minpac#add('junegunn/fzf', { 'do': 'packloadall! | call fzf#install()' })
 call minpac#add('junegunn/fzf.vim')
 nnoremap <C-p> :<C-u>FZF<CR>
 
-" Linting
-call minpac#add('dense-analysis/ale')
-let js_fixers = ['prettier', 'eslint']
+" " Linting
+" " call minpac#add('dense-analysis/ale')
+" " let js_fixers = ['prettier', 'eslint']
 
-let g:ale_fixers = {
-      \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \   'javascript': js_fixers,
-      \   'javascript.jsx': js_fixers,
-      \   'typescript': js_fixers,
-      \   'typescriptreact': js_fixers,
-      \   'css': ['prettier'],
-      \   'json': ['prettier'],
-      \}
-let g:ale_linters = {
-      \   'javascript': ['eslint', 'prettier'],
-      \   'javascript.jsx': ['eslint', 'prettier'],
-      \   'typescript': ['eslint', 'tsserver'],
-      \   'typescriptreact': ['eslint', 'tsserver'],
-      \}
-let g:ale_javascript_eslint_use_global = 1
-let g:ale_linters_explicit = 1
-let g:ale_sign_column_always = 1
-" let g:ale_sign_error = '>>'
-" let g:ale_sign_warning = '--'
-let g:ale_sign_error = '❌'
-let g:ale_sign_warning = '⚠️'
-let g:ale_fix_on_save = 1
+" " let g:ale_fixers = {
+" "       \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+" "       \   'javascript': js_fixers,
+" "       \   'javascript.jsx': js_fixers,
+" "       \   'typescript': js_fixers,
+" "       \   'typescriptreact': js_fixers,
+" "       \   'css': ['prettier'],
+" "       \   'json': ['prettier'],
+" "       \}
+" " let g:ale_linters = {
+" "       \   'javascript': ['eslint', 'prettier'],
+" "       \   'javascript.jsx': ['eslint', 'prettier'],
+" "       \   'typescript': ['eslint', 'tsserver'],
+" "       \   'typescriptreact': ['eslint', 'tsserver'],
+" "       \}
 
-" let g:ale_typescript_prettier_use_local_config = 1
-" let g:ale_fix_on_save = 1
-" " let g:airline#extensions#ale#enabled = 1
-" " let g:ale_virtualtext_cursor = 1
-" " let g:ale_virtualtext_prefix = "🔥 "
-" let g:ale_sign_column_always = 1
-" let g:ale_completion_autoimport = 1
-" let g:ale_lsp_suggestions = 1
-" let g:ale_floating_preview = 1
-" let g:ale_linters_explicit = 1
+" " let g:ale_typescript_prettier_use_local_config = 1
+" " let g:ale_fix_on_save = 1
+" " " let g:airline#extensions#ale#enabled = 1
+" " " let g:ale_virtualtext_cursor = 1
+" " " let g:ale_virtualtext_prefix = "🔥 "
+" " let g:ale_sign_column_always = 1
+" " let g:ale_completion_autoimport = 1
+" " let g:ale_lsp_suggestions = 1
+" " let g:ale_floating_preview = 1
+" " let g:ale_linters_explicit = 1
 
-" let g:ale_sign_error = "🐛"
-" let g:ale_sign_warning = "⚠️"
-" let g:ale_sign_info = "ℹ"
+" " let g:ale_sign_error = "🐛"
+" " let g:ale_sign_warning = "⚠️"
+" " let g:ale_sign_info = "ℹ"
 
-" " augroup ale-colors
-"   " highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
-"   " highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
-" " augroup END
+" " " augroup ale-colors
+" "   " highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
+" "   " highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
+" " " augroup END
 
 
-" command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
+" " command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
 call minpac#add('neoclide/coc.nvim', {"branch": "release"})
 let g:coc_global_extensions = [
   \ 'coc-tsserver'
   \ ]
 
-" commented. Trying ale again.
-" if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
-"   let g:coc_global_extensions += ['coc-prettier']
-" endif
+if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+  let g:coc_global_extensions += ['coc-prettier']
+endif
 
-" if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
-"   let g:coc_global_extensions += ['coc-eslint']
-" endif
+if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+  let g:coc_global_extensions += ['coc-eslint']
+endif
 
 " Javascript highlighting
-call minpac#add('sheerun/vim-polyglot')
-" call minpac#add('pangloss/vim-javascript')
-" call minpac#add('leafgarland/typescript-vim')
-" call minpac#add('MaxMEllon/vim-jsx-pretty')
-" call minpac#add('peitalin/vim-jsx-typescript')
-" call minpac#add('jparise/vim-graphql')
+call minpac#add('pangloss/vim-javascript')
+call minpac#add('leafgarland/typescript-vim')
+call minpac#add('MaxMEllon/vim-jsx-pretty')
+call minpac#add('peitalin/vim-jsx-typescript')
+call minpac#add('jparise/vim-graphql')
 " call minpac#add('ianks/vim-tsx')
-" call minpac#add('leshill/vim-json')
-" call minpac#add('evanleck/vim-svelte')
+call minpac#add('leshill/vim-json')
+call minpac#add('evanleck/vim-svelte')
 
 " NerdCommenter
 call minpac#add('scrooloose/nerdcommenter')
@@ -227,3 +216,5 @@ nnoremap <leader>k :m .-2<CR>==
 " copy to the MacOS clipboard
 nnoremap <leader>Y "*yy
 vnoremap <leader>y "*y
+
+
