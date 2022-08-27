@@ -20,119 +20,89 @@ if !exists('g:loaded_minpac')
 
 endif
 
+if exists('g:loaded_minpac')
+  "minpac is available.
+  call minpac#init()
+  call minpac#add('k-takata/minpac', {'type': 'opt'})
+  command! PackUpdate call minpac#update()
+  command! PackClean call minpac#clean()
 
-"minpac is available.
-call minpac#init()
-call minpac#add('k-takata/minpac', {'type': 'opt'})
-command! PackUpdate call minpac#update()
-command! PackClean call minpac#clean()
+  " Update colorscheme to use plugin
+  " call minpac#add('crusoexia/vim-monokai')
+  call minpac#add('gruvbox-community/gruvbox')
+  colorscheme gruvbox
 
-" Airline
-call minpac#add('vim-airline/vim-airline')
-call minpac#add('vim-airline/vim-airline-themes')
-" Update colorscheme to use plugin
-" call minpac#add('crusoexia/vim-monokai')
-call minpac#add('gruvbox-community/gruvbox')
-colorscheme gruvbox
+  " Statusline
+  call minpac#add('itchyny/lightline.vim')
 
-" Install FZF and set up commands
-call minpac#add('junegunn/fzf', { 'do': 'packloadall! | call fzf#install()' })
-call minpac#add('junegunn/fzf.vim')
-nnoremap <C-p> :<C-u>FZF<CR>
+  " Install FZF and set up commands
+  call minpac#add('junegunn/fzf', { 'do': 'packloadall! | call fzf#install()' })
+  call minpac#add('junegunn/fzf.vim')
+  nnoremap <C-p> :<C-u>FZF<CR>
 
-" Linting
-call minpac#add('dense-analysis/ale')
-let js_fixers = ['prettier', 'eslint']
+  " Linting
+  call minpac#add('dense-analysis/ale')
+  let js_fixers = ['prettier', 'eslint']
 
-let g:ale_fixers = {
-      \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \   'javascript': js_fixers,
-      \   'javascript.jsx': js_fixers,
-      \   'typescript': js_fixers,
-      \   'typescriptreact': js_fixers,
-      \   'css': ['prettier'],
-      \   'json': ['prettier'],
-      \}
-let g:ale_linters = {
-      \   'javascript': ['eslint', 'prettier'],
-      \   'javascript.jsx': ['eslint', 'prettier'],
-      \   'typescript': ['eslint', 'tsserver'],
-      \   'typescriptreact': ['eslint', 'tsserver'],
-      \}
-let g:ale_javascript_eslint_use_global = 1
-let g:ale_linters_explicit = 1
-let g:ale_sign_column_always = 1
-" let g:ale_sign_error = '>>'
-" let g:ale_sign_warning = '--'
-let g:ale_sign_error = '❌'
-let g:ale_sign_warning = '⚠️'
-let g:ale_fix_on_save = 1
+  let g:ale_fixers = {
+        \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+        \   'javascript': js_fixers,
+        \   'javascript.jsx': js_fixers,
+        \   'typescript': js_fixers,
+        \   'typescriptreact': js_fixers,
+        \   'css': ['prettier'],
+        \   'json': ['prettier'],
+        \}
+  let g:ale_linters = {
+        \   'javascript': ['eslint', 'prettier'],
+        \   'javascript.jsx': ['eslint', 'prettier'],
+        \   'typescript': ['eslint', 'tsserver'],
+        \   'typescriptreact': ['eslint', 'tsserver'],
+        \}
+  let g:ale_javascript_eslint_use_global = 1
+  let g:ale_linters_explicit = 1
+  let g:ale_sign_column_always = 1
+  " let g:ale_sign_error = '>>'
+  " let g:ale_sign_warning = '--'
+  let g:ale_sign_error = '❌'
+  let g:ale_sign_warning = '⚠️'
+  let g:ale_fix_on_save = 1
 
-" let g:ale_typescript_prettier_use_local_config = 1
-" let g:ale_fix_on_save = 1
-" " let g:airline#extensions#ale#enabled = 1
-" " let g:ale_virtualtext_cursor = 1
-" " let g:ale_virtualtext_prefix = "🔥 "
-" let g:ale_sign_column_always = 1
-" let g:ale_completion_autoimport = 1
-" let g:ale_lsp_suggestions = 1
-" let g:ale_floating_preview = 1
-" let g:ale_linters_explicit = 1
+  call minpac#add('neoclide/coc.nvim', {"branch": "release"})
+  let g:coc_global_extensions = [
+    \ 'coc-tsserver'
+    \ ]
 
-" let g:ale_sign_error = "🐛"
-" let g:ale_sign_warning = "⚠️"
-" let g:ale_sign_info = "ℹ"
+  " commented. Trying ale again.
+  " if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+  "   let g:coc_global_extensions += ['coc-prettier']
+  " endif
 
-" " augroup ale-colors
-"   " highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
-"   " highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
-" " augroup END
+  " if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+  "   let g:coc_global_extensions += ['coc-eslint']
+  " endif
 
+  " Javascript highlighting
+  call minpac#add('sheerun/vim-polyglot')
 
-" command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
+  " NerdCommenter
+  call minpac#add('scrooloose/nerdcommenter')
+  let g:NERDSpaceDelims = 1
+  let g:NERDDefaultAlign = 'left'
 
-call minpac#add('neoclide/coc.nvim', {"branch": "release"})
-let g:coc_global_extensions = [
-  \ 'coc-tsserver'
-  \ ]
+  call minpac#add('tpope/vim-surround')
+  call minpac#add('jiangmiao/auto-pairs')
 
-" commented. Trying ale again.
-" if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
-"   let g:coc_global_extensions += ['coc-prettier']
-" endif
+  " Emmet
+  call minpac#add('mattn/emmet-vim')
+  imap <expr> <tab> emmet#expandAbbrIntelligent("\<C-e>")
 
-" if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
-"   let g:coc_global_extensions += ['coc-eslint']
-" endif
-
-" Javascript highlighting
-call minpac#add('sheerun/vim-polyglot')
-" call minpac#add('pangloss/vim-javascript')
-" call minpac#add('leafgarland/typescript-vim')
-" call minpac#add('MaxMEllon/vim-jsx-pretty')
-" call minpac#add('peitalin/vim-jsx-typescript')
-" call minpac#add('jparise/vim-graphql')
-" call minpac#add('ianks/vim-tsx')
-" call minpac#add('leshill/vim-json')
-" call minpac#add('evanleck/vim-svelte')
-
-" NerdCommenter
-call minpac#add('scrooloose/nerdcommenter')
-let g:NERDSpaceDelims = 1
-let g:NERDDefaultAlign = 'left'
-
-call minpac#add('tpope/vim-surround')
-call minpac#add('jiangmiao/auto-pairs')
-
-" Emmet
-call minpac#add('mattn/emmet-vim')
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<C-e>")
-
-" Respect .editorconfig files. (http://editorconfig.org/)
-call minpac#add('editorconfig/editorconfig-vim')
+  " Respect .editorconfig files. (http://editorconfig.org/)
+  call minpac#add('editorconfig/editorconfig-vim')
 
 
-" TODO: Should the above be in a seperate "install" script?
+  " TODO: Should the above be in a seperate "install" script?
+endif
 
 " Settings
 set encoding=utf-8
@@ -151,6 +121,9 @@ set modelines=0
 set scrolloff=8
 set number
 set relativenumber
+" hide default mode status and show lightline plugin
+set noshowmode
+set laststatus=2
 
 set tabstop=2 softtabstop=2
 set shiftwidth=2
