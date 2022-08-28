@@ -41,46 +41,99 @@ if exists('g:loaded_minpac')
   nnoremap <C-p> :<C-u>FZF<CR>
 
   " Linting
-  call minpac#add('dense-analysis/ale')
-  let js_fixers = ['prettier', 'eslint']
+  " call minpac#add('dense-analysis/ale')
+  " let js_fixers = ['prettier', 'eslint']
 
-  let g:ale_fixers = {
-        \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-        \   'javascript': js_fixers,
-        \   'javascript.jsx': js_fixers,
-        \   'typescript': js_fixers,
-        \   'typescriptreact': js_fixers,
-        \   'css': ['prettier'],
-        \   'json': ['prettier'],
-        \}
-  let g:ale_linters = {
-        \   'javascript': ['eslint', 'prettier'],
-        \   'javascript.jsx': ['eslint', 'prettier'],
-        \   'typescript': ['eslint', 'tsserver'],
-        \   'typescriptreact': ['eslint', 'tsserver'],
-        \}
-  let g:ale_javascript_eslint_use_global = 1
-  let g:ale_linters_explicit = 1
-  let g:ale_sign_column_always = 1
-  " let g:ale_sign_error = '>>'
-  " let g:ale_sign_warning = '--'
-  let g:ale_sign_error = '❌'
-  let g:ale_sign_warning = '⚠️'
-  let g:ale_fix_on_save = 1
+  " let g:ale_fixers = {
+  "       \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+  "       \   'javascript': js_fixers,
+  "       \   'javascript.jsx': js_fixers,
+  "       \   'typescript': js_fixers,
+  "       \   'typescriptreact': js_fixers,
+  "       \   'css': ['prettier'],
+  "       \   'json': ['prettier'],
+  "       \}
+  " let g:ale_linters = {
+  "       \   'javascript': ['eslint', 'prettier'],
+  "       \   'javascript.jsx': ['eslint', 'prettier'],
+  "       \   'typescript': ['eslint', 'tsserver'],
+  "       \   'typescriptreact': ['eslint', 'tsserver'],
+  "       \}
+  " let g:ale_javascript_eslint_use_global = 1
+  " let g:ale_linters_explicit = 1
+  " let g:ale_sign_column_always = 1
+  " " let g:ale_sign_error = '>>'
+  " " let g:ale_sign_warning = '--'
+  " let g:ale_sign_error = '❌'
+  " let g:ale_sign_warning = '⚠️'
+  " let g:ale_fix_on_save = 1
 
   call minpac#add('neoclide/coc.nvim', {"branch": "release"})
   let g:coc_global_extensions = [
-    \ 'coc-tsserver'
+    \ 'coc-tsserver',
+    \ 'coc-pairs'
     \ ]
 
-  " commented. Trying ale again.
-  " if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
-  "   let g:coc_global_extensions += ['coc-prettier']
-  " endif
+  if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+    let g:coc_global_extensions += ['coc-prettier']
+  endif
 
-  " if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
-  "   let g:coc_global_extensions += ['coc-eslint']
-  " endif
+  if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+    let g:coc_global_extensions += ['coc-eslint']
+  endif
+
+  " Use tab for trigger completion with characters ahead and navigate.
+  " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+  " NOTE: There's always complete item selected by default, you may want to enable
+  " no select by `"suggest.noselect": true` in your configuration file.
+  " other plugin before putting this into your config.
+  inoremap <silent><expr> <TAB>
+        \ coc#pum#visible() ? coc#pum#next(1):
+        \ CheckBackspace() ? "\<Tab>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+  " Make <CR> to accept selected completion item or notify coc.nvim to format
+  " <C-g>u breaks current undo, please make your own choice.
+  inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                                \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+  function! CheckBackspace() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  " Use <c-space> to trigger completion.
+  if has('nvim')
+    inoremap <silent><expr> <c-space> coc#refresh()
+  else
+    inoremap <silent><expr> <c-@> coc#refresh()
+  endif
+
+  " Use `[g` and `]g` to navigate diagnostics
+  " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+  nmap <silent> [g <Plug>(coc-diagnostic-prev)
+  nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+  " GoTo code navigation.
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+
+  " Use K to show documentation in preview window.
+  nnoremap <silent> K :call ShowDocumentation()<CR>
+
+  function! ShowDocumentation()
+    if CocAction('hasProvider', 'hover')
+      call CocActionAsync('doHover')
+    else
+      call feedkeys('K', 'in')
+    endif
+  endfunction
+
+  " Highlight the symbol and its references when holding the cursor.
+  autocmd CursorHold * silent call CocActionAsync('highlight')
 
   " Javascript highlighting
   call minpac#add('sheerun/vim-polyglot')
@@ -91,11 +144,11 @@ if exists('g:loaded_minpac')
   let g:NERDDefaultAlign = 'left'
 
   call minpac#add('tpope/vim-surround')
-  call minpac#add('jiangmiao/auto-pairs')
+  " call minpac#add('jiangmiao/auto-pairs')
 
   " Emmet
   call minpac#add('mattn/emmet-vim')
-  imap <expr> <tab> emmet#expandAbbrIntelligent("\<C-e>")
+  " imap <expr> <tab> emmet#expandAbbrIntelligent("\<C-e>")
 
   " Respect .editorconfig files. (http://editorconfig.org/)
   call minpac#add('editorconfig/editorconfig-vim')
