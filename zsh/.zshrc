@@ -1,6 +1,6 @@
 # If on work machine, import work profiles too.
 [ -e "/opt/brew/opt/idk-core/profile.zsh" ] && source "/opt/brew/opt/idk-core/profile.zsh"
-export TERM=xterm-color
+export TERM=xterm-256color
 
 # If you come from bash you might have to change your $PATH.
 export PATH=/opt/homebrew/bin:$HOME/bin:$HOME/.yarn/bin:$PATH
@@ -12,7 +12,7 @@ export FZF_DEFAULT_OPTS='--height=70% --preview="cat {}" --preview-window=right:
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND='rg --files'
 
-export EDITOR=vim
+export EDITOR=nvim
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
