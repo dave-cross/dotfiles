@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Two places to use this command
+# In vim: nnoremap <silent> <C-f> :silent !tmux neww tmux-sessionizer
+# In shell: bindkey -s ^f "tmux-sessionizer\n"
+
+session=$(find ~ ~/Development ~/Development/learning -mindepth 1 -maxdepth 1 -type d | fzf)
+
+if [[ -z $session ]]; then
+    exit 0
+fi
+
+session_name=$(basename "$session" | tr . _) 
+
+
+if [[ -z $TMUX ]]; then
+    tmux new-session -s $session_name -c $session
+    exit 0
+fi
+
+if ! tmux has-session -t "$session_name" 2> /dev/null; then
+  tmux new-session -s "$session_name" -c "$session" -d
+fi
+
+tmux switch-client -t "$session_name"
