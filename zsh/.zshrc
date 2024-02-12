@@ -21,6 +21,7 @@ export EDITOR=nvim
 
 bindkey "[D" backward-word
 bindkey "[C" forward-word
+bindkey -s ^f "tmux-sessionizer\n"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
