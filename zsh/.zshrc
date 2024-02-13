@@ -19,6 +19,7 @@ export EDITOR=nvim
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME="dave"
 
+bindkey -e
 bindkey "[D" backward-word
 bindkey "[C" forward-word
 bindkey -s ^f "tmux-sessionizer\n"
