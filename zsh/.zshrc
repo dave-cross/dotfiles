@@ -113,6 +113,7 @@ alias docu="docker-compose up -d"
 alias docd="docker-compose down"
 alias pro='docker run --name prototype -dit -p 3000:3000 --rm -v "$PWD":/app node:14-alpine'
 alias start='docker exec -it prototype sh'
+alias vim="nvim"
 
 
 function newdesign {

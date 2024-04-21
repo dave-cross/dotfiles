@@ -84,7 +84,8 @@ nnoremap <C-p> :<C-u>FZF<CR>
 
 call minpac#add('neoclide/coc.nvim', {"branch": "release"})
 let g:coc_global_extensions = [
-  \ 'coc-tsserver'
+  \ 'coc-tsserver',
+  \ 'coc-emmet'
   \ ]
 
 if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
@@ -94,6 +95,7 @@ endif
 if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
   let g:coc_global_extensions += ['coc-eslint']
 endif
+inoremap <silent><expr> <tab> coc#pum#visible() ? coc#pum#confirm() : "\<tab>"
 
 " Javascript highlighting
 call minpac#add('pangloss/vim-javascript')
@@ -114,8 +116,8 @@ call minpac#add('tpope/vim-surround')
 call minpac#add('jiangmiao/auto-pairs')
 
 " Emmet
-call minpac#add('mattn/emmet-vim')
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<C-e>")
+" call minpac#add('mattn/emmet-vim')
+" imap <expr> <tab> emmet#expandAbbrIntelligent("\<C-e>")
 
 " Respect .editorconfig files. (http://editorconfig.org/)
 call minpac#add('editorconfig/editorconfig-vim')
